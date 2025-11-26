@@ -23,3 +23,5 @@ jobs:
     - name: Lint with Flake8 #run library flake8 untuk melakukan lint ing, cuma nyoba aturan yang E1 - F4
       run: flake8 . --count --select=E1,F4 --show-source --statistics
 
+    - name: Run Unit Tests
+      run: pytest
