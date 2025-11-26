@@ -40,13 +40,26 @@ def handle_pets():
         response_data.status_code = 201
         return response_data
 
+    # if request.method == 'GET':
+    #     category = request.args.get('category')
+    #     if category:
+    #         matching_pets = [pet for pet in pets.values() if pet['category'] == category]
+    #         return jsonify(matching_pets)
+        
+    #     return jsonify(list(pets.values()))
+
     if request.method == 'GET':
         category = request.args.get('category')
         if category:
-            matching_pets = [pet for pet in pets.values() if pet['category'] == category]
-            return jsonify(matching_pets)
-        
-        return jsonify(list(pets.values()))
+            # Case-insensitive filtering
+            matching_pets = [
+                pet for pet in pets.values()
+                if pet.get('category', '').lower() == category.lower()
+            ]
+            return jsonify(matching_pets), 200
+
+    return jsonify(list(pets.values())), 200
+
 
 # API endpoint for updating a pet
 @app.route('/pets/<int:pet_id>', methods=['PUT'])
