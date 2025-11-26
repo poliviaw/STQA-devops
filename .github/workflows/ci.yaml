@@ -7,5 +7,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Say Hello World 
-      run: echo "Hello World!"
+    - name: Checkout Code
+      uses: actions/checkout@v3   # Downloads the code to the runner
+
+    - name: Set up Python    # Install python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install Dependencies # Instal dependencies, cek apakah ada requirements
+      run: |  #harus pake simbol | kalo perintahnya lebih dari 1 baris
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Lint with Flake8 #run library flake8 untuk melakukan lint ing, cuma nyoba aturan yang E1 - F4
+      run: flake8 . --count --select=E1,F4 --show-source --statistics
+
